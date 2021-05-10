@@ -1,24 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { Drizzle } from "@drizzle/store";
+import { drizzleReactHooks } from "@drizzle/react-plugin";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+
+import drizzleOptions from "./drizzleOptions";
+import LoadingContainer from "./LoadingContainer.js";
+import Navbar from "./Navbar.js";
+import AllTweets from "./AllTweets.js";
+import MyTweets from "./MyTweets";
+import NewTweet from "./NewTweet";
+
+const drizzle = new Drizzle(drizzleOptions);
+const { DrizzleProvider } = drizzleReactHooks;
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <DrizzleProvider drizzle={drizzle}>
+        <LoadingContainer>
+          <div className="container">
+            <div className="row">
+              <div className="col-sm-12">
+                <Navbar />
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-sm-12">
+                <Switch>
+                  <Route exact path="/" component={AllTweets} />
+                  <Route exact path="/my-tweets" component={MyTweets} />
+                  <Route exact path="/new-tweet" component={NewTweet} />
+                </Switch>
+              </div>
+            </div>
+          </div>
+        </LoadingContainer>
+      </DrizzleProvider>
+    </Router>
   );
 }
 

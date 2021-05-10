@@ -82,6 +82,10 @@ module.exports = {
 
   contracts_build_directory: path.join(__dirname, "app/src/contracts"),
 
+  ens: {
+    enabled: true,
+  },
+
   // Configure your compilers
   compilers: {
     solc: {
