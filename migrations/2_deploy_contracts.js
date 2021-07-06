@@ -11,15 +11,8 @@ module.exports = async function (deployer, _network, accounts) {
 
   const twitter = await Twitter.deployed();
 
-  // Dosh
+  // Bob
   await twitter.tweet("Did you guys see the Lighting game last night?");
-  await twitter.tweet(
-    "Idk why these kids are obsessed with Dogecoin? Crypto is BS"
-  );
+  await twitter.tweet("Can someone buy my dogecoin?");
   await twitter.tweet("I srsly don't know why someone would cancel me");
-
-  // Ev
-  await twitter.tweet(
-    "@dosh.jubin You posted offensive comments on my facebook wall"
-  );
 };

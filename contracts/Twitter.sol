@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.1;
 
+// Add new account feature
+
 abstract contract Resolver {
     function addr(bytes32 node) external view virtual returns (address);
 }
@@ -33,6 +35,7 @@ contract Twitter {
     // For APIs
     mapping(address => mapping(address => bool)) private operators;
 
+    string public userName;
     uint256 public nextTweetId;
     uint256 public nextMessageId;
     ENS public ens;
@@ -62,12 +65,12 @@ contract Twitter {
         return resolver.addr(_node);
     }
 
-    function reverseResolve(address _authorAddress)
+    function reverseResolve(address _authorAddress, string memory _userName)
         public
-        view
         returns (string memory)
     {
-        return "dosh jubin";
+        userName = _userName;
+        return userName;
     }
 
     function tweet(string calldata _content) external {
@@ -164,7 +167,7 @@ contract Twitter {
         internal
         canOperate(_authorAddress)
     {
-        string memory authorName = reverseResolve(_authorAddress);
+        string memory authorName = reverseResolve(_authorAddress, userName);
         tweets[nextTweetId] = Tweet(
             nextTweetId,
             _authorAddress,
@@ -183,8 +186,8 @@ contract Twitter {
         address _to
     ) internal canOperate(_from) {
         // From ^0.8.x onwards, explicit conversions must have multiple changes
-        uint256 conversationId =
-            uint256(uint160(_from)) + uint256(uint160(_to));
+        uint256 conversationId = uint256(uint160(_from)) +
+            uint256(uint160(_to));
         conversations[conversationId].push(
             Message(nextMessageId, _content, _from, _to, block.timestamp)
         );
